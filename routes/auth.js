@@ -23,9 +23,9 @@ const jwt = require("jsonwebtoken");
 
    router.post("/login" , async (req,res)=>{
         try{
+           
            const user = await User.findOne({username:req.body.username});
-           !user && res.status(401).json("Wrong Credentials!");
-            
+
            const hashedPassword = CryptoJS.AES.decrypt(
             user.password,process.env.PASS_SEC 
            );

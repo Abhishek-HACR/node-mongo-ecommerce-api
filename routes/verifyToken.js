@@ -11,12 +11,12 @@ const verifyToken = (req,res,next)=>{
             next();
         });
     }else{
-        return res.status(401).json("you are not Authorized!");
-    }
+        return res.status(401).json("you are not Authorized!"); 
+    } 
 };
 
 const verifyTokenAndAuthorization = (req,res,next)=>{
-     verifyToken(req,res,()=>{
+     verifyToken(req,res,()=>{ 
         if(req.user.id === req.params.id || req.user.isAdmin){
             next();
         }else{
@@ -25,4 +25,14 @@ const verifyTokenAndAuthorization = (req,res,next)=>{
     });
 };
 
-module.exports = {verifyToken , verifyTokenAndAuthorization};
+const verifyTokenAndAdmin = (req,res,next)=>{
+     verifyToken(req,res,()=>{
+        if(req.user.isAdmin){
+            next();
+        }else{
+            res.status(401).json("You are not allowed to do that!");
+        }
+    });
+};
+
+module.exports = {verifyToken , verifyTokenAndAuthorization , verifyTokenAndAdmin};
